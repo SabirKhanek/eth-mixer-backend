@@ -43,7 +43,7 @@ class WalletAllocationService {
                 }
             });
 
-            console.log(`Deleted ${affectedRows} stale mixer requests.`);
+            if(affectedRows>0)console.log(`Deleted ${affectedRows} stale mixer requests.`);
         } catch (error) {
             console.error('Error deleting records:', error);
         }
