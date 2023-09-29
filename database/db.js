@@ -24,7 +24,9 @@ const sequelize = new Sequelize({
     console.error("Error connecting to the database", error);
     return null;
   }
-})();
+})().catch((err) => {
+  console.log(err);
+});
 
 module.exports = {
   sequelize,
