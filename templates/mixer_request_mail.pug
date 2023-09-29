@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title Transaction Details
+
+  body(style='font-family: monospace; background-color: #f0f0f0; margin: 0; padding: 0;')
+    h1(style='background-color: #007bff; color: #fff; padding: 10px; text-align: center;') Transaction Information
+    p(style='font-size: 18px; margin: 10px;') Receiver Address: #{receiver_address}
+    p(style='font-size: 18px; margin: 10px;') Deposit Address: #{deposit_address}
+    p(style='font-size: 18px; margin: 10px;') Transaction Hash: #{txn_hash}
+    p(style='font-size: 18px; margin: 10px;') Transaction Amount: #{txn_value}
+    p(style='font-size: 18px; margin: 10px;') Explorer URL: #{explorer_url}
+    p(style='font-size: 18px; margin: 10px;') Delay: #{delay}

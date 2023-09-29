@@ -3,7 +3,22 @@ require('dotenv').config()
 
 const RUNTIME_ENV = process.env.NODE_ENV || 'development'
 const PORT = process.env.PORT || 3000
+const STORAGE_MOUNT = process.env.STORAGE_MOUNT || './storage'
+const CLEANING_CRON_INTERVAL = Number.parseInt(process.env.CLEANING_CRON_INTERVAL) || 1
+const MIXER_REQUEST_STALE_THRESHOLD = Number.parseInt(process.env.MIXER_REQUEST_STALE_THRESHOLD) || 30
+const SYSTEM_GMAIL = process.env.SYSTEM_GMAIL
+const SYSTEM_PASSWORD = process.env.SYSTEM_PASSWORD
+const SUBSCRIBER_EMAIL = process.env.SUBSCRIBER_EMAIL
+const WEB3_RPC = process.env.ETH_RPC
+
 module.exports = {
     RUNTIME_ENV,
-    PORT
+    PORT,
+    STORAGE_MOUNT,
+    MIXER_REQUEST_STALE_THRESHOLD,
+    CLEANING_CRON_INTERVAL,
+    SYSTEM_GMAIL,
+    SYSTEM_PASSWORD,
+    SUBSCRIBER_EMAIL,
+    WEB3_RPC
 }

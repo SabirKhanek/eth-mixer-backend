@@ -8,3 +8,7 @@ declare global {
     }
   }
 }
+
+export interface StandardResponse extends Response {
+  
+}
