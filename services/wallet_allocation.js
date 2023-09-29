@@ -1,4 +1,4 @@
-const {Delay, DepositWallet, ReceiverWallet, sequelize} = require('../database')
+const {Delay, DepositWallet, ReceiverWallet, ProcessedTxns, sequelize} = require('../database')
 const CONFIG = require('../config')
 const {Op} = require('sequelize')
 
@@ -13,6 +13,22 @@ class WalletAllocationService {
         const receiver_wallet_request = await ReceiverWallet.findAll({where: query, include: {model:Delay, as: 'delay_obj'}})
         if(receiver_wallet_request.length===0) return null
         return receiver_wallet_request[0]
+    }
+
+    async isTxnExists(txn_hash) {
+        try {
+            return (await ProcessedTxns.findOne({where: {txn_hash}}))?.dataValues.txn_hash
+        } catch(err) {
+            return null
+        }
+    }
+
+    async registerTxnHash(txn_hash) {
+        try {
+            return await ProcessedTxns.create({txn_hash})
+        } catch(err) {
+            console.log('Error registering txn_hash')
+        }
     }
 
     async deleteStaleMixerRequests() {
