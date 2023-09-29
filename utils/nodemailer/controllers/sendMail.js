@@ -1,4 +1,4 @@
-const { mailTransporter } = require('../nodeMailerConfig')
+const { establishMailTransporterWithRetry } = require('../nodeMailerConfig')
 const CONFIG = require('../../../config')
 module.exports = async (to, subject, html) => {
     try {
@@ -12,8 +12,8 @@ module.exports = async (to, subject, html) => {
             html 
         }
 
-
-        await mailTransporter.sendMail(mailOptions)
+        const transporter = await establishMailTransporterWithRetry()
+        await transporter.sendMail(mailOptions)
     } catch(err) {
         throw new Error(err)
     }

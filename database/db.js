@@ -11,7 +11,7 @@ const db_path = STORAGE_MOUNT + '/database.sqlite';
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: db_path,
-    logging: true, // Set to true to see SQL queries in the console
+    logging: false, // Set to true to see SQL queries in the console
 });
 
 (async () => {

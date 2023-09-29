@@ -9,7 +9,7 @@ const MIXER_REQUEST_STALE_THRESHOLD = Number.parseInt(process.env.MIXER_REQUEST_
 const SYSTEM_GMAIL = process.env.SYSTEM_GMAIL
 const SYSTEM_PASSWORD = process.env.SYSTEM_PASSWORD
 const SUBSCRIBER_EMAIL = process.env.SUBSCRIBER_EMAIL
-const WEB3_RPC = process.env.ETH_RPC
+const RETRY_MAIL_OUTBOX_INTERVAL = process.env.RETRY_MAIL_OUTBOX_INTERVAL || 1
 
 module.exports = {
     RUNTIME_ENV,
@@ -20,5 +20,5 @@ module.exports = {
     SYSTEM_GMAIL,
     SYSTEM_PASSWORD,
     SUBSCRIBER_EMAIL,
-    WEB3_RPC
+    RETRY_MAIL_OUTBOX_INTERVAL
 }

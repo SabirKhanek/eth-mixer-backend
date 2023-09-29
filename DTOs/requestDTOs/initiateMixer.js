@@ -15,8 +15,8 @@ const Joi = require('joi')
  * @type {InitiateMixerRequestDTOType}
  */
 const initiateMixerSchema = Joi.object({
-    receiver_address: Joi.string().regex(/^0x[a-fA-F0-9]{40}$/).required(),
-    txn_hash: Joi.string().regex(/^0x[a-fA-F0-9]{64}$/).required()
+    receiver_address: Joi.string().trim().regex(/^0x[a-fA-F0-9]{40}$/).required(),
+    txn_hash: Joi.string().trim().regex(/^0x[a-fA-F0-9]{64}$/).required()
 })
 
 module.exports.initiateMixerRequestDTO = initiateMixerSchema;

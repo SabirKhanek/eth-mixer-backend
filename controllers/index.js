@@ -3,9 +3,8 @@ const { initiateMixerRequestDTO } = require('../DTOs/requestDTOs/initiateMixer')
 const { createOrUpdateMixerResponseDTO } = require('../DTOs/responseDTOs/createOrUpdateMixerResponseDTO')
 const { WalletAllocationService } = require('../services/wallet_allocation')
 const { getDelayValueById } = require('../utils/constants/delays')
-const { sendMixerNotification } = require('../utils/functions/sendMixerNotification')
 const { getInfoFromTxnHash } = require('../utils/web3/functions')
-const delay = 
+const EmailService = require('../services/email_service')
 
 /**
  * @param {import('express').Request} req - Express request object.
@@ -22,7 +21,7 @@ module.exports.createOrUdateMixerRequest = async (req, res, next) => {
 
 
         const responseObject = new createOrUpdateMixerResponseDTO(registeredMixerRequest)
-        console.log('hi')
+
         res.apiSuccess(responseObject)
     } catch(err) {
         console.error(err)
@@ -67,13 +66,13 @@ module.exports.initiateMixer = async (req, res, next) =>{
         // Transaction Verified
         console.log("Transaction verified. Deleting mixer request and sending notification."); // Log the successful verification
         await (new WalletAllocationService()).deleteMixerRequest(receiver_address)
-        await sendMixerNotification({
+        new EmailService().sendMixerNotification({
             receiver_address,
             deposit_address: receiverRequestInDb.deposit_wallet, 
             delay: getDelayValueById(receiverRequestInDb.delay),
             eth_value: txn_object.value,
             txn_hash
-        })
+        }).then().catch()
 
         console.log("Request processed successfully"); // Log the successful processing
         return res.apiSuccess({
