@@ -24,18 +24,26 @@ ReceiverWallet.belongsTo(Delay, {
   as: "delay_obj",
   foreignKeyConstraint: "delay",
 });
-setTimeout(async () => {
-  await Delay.destroy({ truncate: true });
-  await Delay.bulkCreate(require("../utils/constants/delays").delays);
-  const depositWallets = require("../utils/constants/deposit_wallets").map(
-    (wallet) => {
-      return { wallet_address: wallet.toLowerCase() };
-    }
-  );
-  await DepositWallet.destroy({ truncate: true });
-  // await DepositWallet.create({wallet_address: '0x18F5e7743dd3F1af54eBff5FD366dDf3Ee28e410'})
-  await DepositWallet.bulkCreate(depositWallets);
-}, 3_000);
+
+async function seed() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await Delay.destroy({ truncate: true });
+    await Delay.bulkCreate(require("../utils/constants/delays").delays);
+    const depositWallets = require("../utils/constants/deposit_wallets").map(
+      (wallet) => {
+        return { wallet_address: wallet.toLowerCase() };
+      }
+    );
+    await DepositWallet.destroy({ truncate: true });
+    await DepositWallet.bulkCreate(depositWallets);
+    console.log("Seeding completed successfully.");
+  } catch (error) {
+    seed()
+  }
+}
+seed()
+
 module.exports = {
   sequelize,
   DepositWallet,

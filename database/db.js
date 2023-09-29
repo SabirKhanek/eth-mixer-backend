@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const { STORAGE_MOUNT, DB_LOGGING } = require("../config");
+const { STORAGE_MOUNT, DB_LOGGING, DB_IN_MEMORY } = require("../config");
 
 const db_path = STORAGE_MOUNT + "/database.sqlite";
 
@@ -10,7 +10,7 @@ const db_path = STORAGE_MOUNT + "/database.sqlite";
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: db_path,
+  storage: DB_IN_MEMORY ? ":memory:" : db_path,
   logging: DB_LOGGING, // Set to true to see SQL queries in the console
 });
 

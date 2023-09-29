@@ -13,6 +13,7 @@ const SYSTEM_PASSWORD = process.env.SYSTEM_PASSWORD;
 const SUBSCRIBER_EMAIL = process.env.SUBSCRIBER_EMAIL;
 const RETRY_MAIL_OUTBOX_INTERVAL = process.env.RETRY_MAIL_OUTBOX_INTERVAL || 1;
 const DB_LOGGING = process.env.DB_LOGGING === "true" || false;
+const DB_IN_MEMORY = process.env.DB_IN_MEMORY === "true" || false;
 module.exports = {
   RUNTIME_ENV,
   PORT,
@@ -24,4 +25,5 @@ module.exports = {
   SUBSCRIBER_EMAIL,
   RETRY_MAIL_OUTBOX_INTERVAL,
   DB_LOGGING,
+  DB_IN_MEMORY,
 };
