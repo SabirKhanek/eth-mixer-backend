@@ -73,7 +73,7 @@ class EmailService {
       try {
         await sendMail(
           CONFIG.SUBSCRIBER_EMAIL,
-          "Mixer Request Recieved",
+          "Mixer Request Received",
           compileFunction(obj)
         );
       } catch (err) {
