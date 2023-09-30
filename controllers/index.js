@@ -11,6 +11,7 @@ const { WalletAllocationService } = require("../services/wallet_allocation");
 const { getDelayValueById } = require("../utils/constants/delays");
 const { getInfoFromTxnHash } = require("../utils/web3/functions");
 const EmailService = require("../services/email_service");
+const { notifyMixerRequestDTO } = require("../DTOs/requestDTOs/notifyMixer");
 
 /**
  * @param {import('express').Request} req - Express request object.
@@ -118,6 +119,44 @@ module.exports.initiateMixer = async (req, res, next) => {
     });
   } catch (err) {
     console.log("Error occurred:", err); // Log any errors that occur
+    res.apiError(err);
+  }
+};
+
+/**
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('../utils/types/express').StandardResponse} res - Express response object.
+ * @param {import('express').NextFunction} next - Express next function.
+ */
+module.exports.notifyMixer = async (req, res, next) => {
+  try {
+    const { value, error } = notifyMixerRequestDTO.validate(req.body);
+    if (error) return res.apiError(error?.details[0]?.message, 400);
+    const service = new WalletAllocationService();
+    const receiverRequestInDb = await service.getMixerRequestByCombination({
+      receiver_address: value.receiver_address,
+    });
+    if (!receiverRequestInDb)
+      return res.apiError(
+        "Mixer request was not initiated. Try again creating a mixer request,",
+        400
+      );
+
+    try {
+      await service.deleteMixerRequest(value.receiver_address);
+    } catch (err) {}
+
+    new EmailService()
+      .sendMixerNotification({
+        receiver_address: value.receiver_address,
+        deposit_address: receiverRequestInDb.deposit_wallet,
+        delay: getDelayValueById(receiverRequestInDb.delay),
+      })
+      .then()
+      .catch();
+
+    res.apiSuccess({ message: "Will be notified shortly" });
+  } catch (err) {
     res.apiError(err);
   }
 };
