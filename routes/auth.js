@@ -8,7 +8,7 @@ const {
 
 const router = require("express").Router();
 // Authentication route
-router.post("/authenticate", authenticate);
+router.post("/", authenticate);
 
 // Validate token route
 router.post("/validate", validateToken, (req, res) => {

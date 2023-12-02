@@ -79,8 +79,8 @@ exports.getUsers = async (req, res) => {
       const users = await authService.getUsers(user);
       res.send(
         users.map((user) => {
-          const { username, createdAt, updatedAt } = user;
-          return { username, createdAt, updatedAt };
+          const { username, id, createdAt, updatedAt } = user;
+          return { username, id, createdAt, updatedAt };
         })
       );
       return;
