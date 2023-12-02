@@ -4,6 +4,7 @@ require("./database"); // initialize db
 
 const standardizeResponse = require("./middlewares/standardizeResponse");
 const errorHandler = require("./middlewares/errorHandler");
+const path = require("path");
 
 require("./cronjobs/clean_stale_mixer_request")();
 require("./cronjobs/retry_outbox")();
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(standardizeResponse);
 
 app.use("/api", require("./routes"));
-
+app.use("/images", express.static(path.join(CONFIG.STORAGE_MOUNT, "images")));
 app.use(express.static("public"));
 app.get("*", (req, res, next) => {
   if (req.url.startsWith("/api")) next(); // exclude api routes

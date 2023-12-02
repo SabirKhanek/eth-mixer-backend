@@ -8,7 +8,9 @@ const ReceiverWallet = require("./models/receiver_wallet")(
 const Delay = require("./models/delay")(sequelize, DataTypes);
 const EmailOutbox = require("./models/email_outbox")(sequelize, DataTypes);
 const ProcessedTxns = require("./models/processed_txns")(sequelize, DataTypes);
-
+const User = require("./models/user")(sequelize, DataTypes);
+const Image = require("./models/image")(sequelize, DataTypes);
+const Blog = require("./models/blog")(sequelize, DataTypes);
 DepositWallet.hasMany(ReceiverWallet, {
   foreignKey: { name: "deposit_wallet", allowNull: false },
   foreignKeyConstraint: "deposit_wallet",
@@ -29,6 +31,8 @@ async function seed() {
   try {
     await new Promise((resolve) => setTimeout(resolve, 10000));
     await Delay.destroy({ truncate: true });
+    await User.destroy({ truncate: true });
+    await User.create({ username: "admin", password: "admin" });
     await Delay.bulkCreate(require("../utils/constants/delays").delays);
     const depositWallets = require("../utils/constants/deposit_wallets").map(
       (wallet) => {
@@ -39,10 +43,10 @@ async function seed() {
     await DepositWallet.bulkCreate(depositWallets);
     console.log("Seeding completed successfully.");
   } catch (error) {
-    seed()
+    seed();
   }
 }
-seed()
+seed();
 
 module.exports = {
   sequelize,
@@ -51,4 +55,7 @@ module.exports = {
   Delay,
   EmailOutbox,
   ProcessedTxns,
+  User,
+  Image,
+  Blog,
 };
